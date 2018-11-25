@@ -4,8 +4,6 @@ import click
 import json
 import subprocess
 
-from termcolor import colored
-
 
 def get_cmd_file():
     user_home = os.path.expanduser("~")
