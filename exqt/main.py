@@ -1,13 +1,48 @@
 import os
 import sys
-import argparse
+import click
 import json
+import argparse
 import subprocess
 from termcolor import colored
 
 
-def main(fp=sys.stderr, argv=None):
+def get_cmd_file():
+    user_home = os.path.expanduser("~")
+    os.chdir(user_home)
+    if not (os.path.exists(".exqt.json")):
+        file = open(".exqt.json", "w+")
+        file.close()
+    return str(os.getcwd() + "/.exqt.json")
 
+
+@click.command()
+@click.argument('name')
+def exqt(name):
+    cmd_lst = get_cmd_file()
+    if cmd_lst == "":
+        print("error, home dir not found")
+        return
+    with open(cmd_lst) as json_data:
+        if json_data.readline() == "":
+            print("command not found")
+            print("consider using `exqt add` to add new command")
+            return
+        json_lst = json.load(json_data)
+        print(json_lst)
+        print(json_lst.keys())
+        json_data.close()
+
+    print(cmd_lst)
+    print(name)
+
+    return
+
+
+def main():
+    exqt()
+    return
+    """
     user_home = os.path.expanduser("~")
 
     if argv is None:
@@ -44,4 +79,5 @@ def main(fp=sys.stderr, argv=None):
     print("- output:", file=fp)
     print(colored(subprocess.Popen(prog_script, shell=True, stdout=subprocess.PIPE).stdout.read().decode("utf-8"),
                   "yellow"), file=fp)
+    """
     return

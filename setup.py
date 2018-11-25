@@ -39,7 +39,7 @@ setup(
     description='EXQT is cli program to save and execute dificult/long comands on demand',  # Optional
 
     install_requires=[
-          'termcolor',
+          'termcolor', 'click'
     ],
     # Classifiers help users find your project by categorizing it.
     #
