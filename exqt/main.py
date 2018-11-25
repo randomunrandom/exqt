@@ -29,7 +29,13 @@ def exqt(name):
             print("consider using `exqt add` to add new scripts")
             return"""
         json_lst = json.load(json_data)
-        print("script:\n\t", click.json_lst["scripts"][name]["script"])
+
+        script = json_lst["scripts"][name]["script"]
+
+        print("script:\n\t", click.style(script, fg='bright_blue'))
+        print("result:")
+        print("\t", click.style(subprocess.Popen(script, shell=True, stdout=subprocess.PIPE).stdout.read().decode("utf-8"),
+                                fg="yellow"))
         #print(json_lst)
         #print(json_lst.keys())
         json_data.close()
