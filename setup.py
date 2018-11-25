@@ -39,7 +39,7 @@ setup(
     description='EXQT is cli program to save and execute dificult/long comands on demand',  # Optional
 
     install_requires=[
-          'termcolor', 'click'
+          'colorama', 'click'
     ],
     # Classifiers help users find your project by categorizing it.
     #
@@ -93,7 +93,7 @@ setup(
     # executes the function `main` from this package when invoked:
     entry_points={  # Optional
         'console_scripts': [
-            'exqt=exqt:main',
+            'exqt=exqt:main'
         ],
     },
 )
