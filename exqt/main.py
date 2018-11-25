@@ -2,8 +2,8 @@ import os
 import sys
 import click
 import json
-import argparse
 import subprocess
+
 from termcolor import colored
 
 
@@ -29,7 +29,7 @@ def exqt(name):
             print("consider using `exqt add` to add new scripts")
             return"""
         json_lst = json.load(json_data)
-        print("script:\n\t", json_lst["scripts"][name]["script"])
+        print("script:\n\t", click.json_lst["scripts"][name]["script"])
         #print(json_lst)
         #print(json_lst.keys())
         json_data.close()
