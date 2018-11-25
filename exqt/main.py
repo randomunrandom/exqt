@@ -44,3 +44,4 @@ def main(fp=sys.stderr, argv=None):
     print("- output:", file=fp)
     print(colored(subprocess.Popen(prog_script, shell=True, stdout=subprocess.PIPE).stdout.read().decode("utf-8"),
                   "yellow"), file=fp)
+    return
