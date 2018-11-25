@@ -24,17 +24,18 @@ def exqt(name):
         print("error, home dir not found")
         return
     with open(cmd_lst) as json_data:
-        if json_data.readline() == "":
+        """if json_data.readline() == "":
             print("command not found")
-            print("consider using `exqt add` to add new command")
-            return
+            print("consider using `exqt add` to add new scripts")
+            return"""
         json_lst = json.load(json_data)
-        print(json_lst)
-        print(json_lst.keys())
+        print("script:\n\t", json_lst["scripts"][name]["script"])
+        #print(json_lst)
+        #print(json_lst.keys())
         json_data.close()
 
-    print(cmd_lst)
-    print(name)
+    #print(cmd_lst)
+    #print(name)
 
     return
 
