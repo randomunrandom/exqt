@@ -16,15 +16,15 @@ def get_cmd_file():
 
 cmd_json = get_cmd_file()
 if cmd_json == "":
-    print("error:\nhome dir not found")
+    click.echo("error:\nhome dir not found")
 
 
 def run_script(script):
-    print("script:")
-    print(click.style(script, fg='bright_blue'))
-    print("result:")
-    print(click.style(subprocess.Popen(script, shell=True, stdout=subprocess.PIPE).stdout.read().decode("utf-8"),
-                      fg="yellow"))
+    click.echo("script:")
+    click.secho(script, fg='bright_blue')
+    click.echo("result:")
+    click.secho(subprocess.Popen(script, shell=True, stdout=subprocess.PIPE).stdout.read().decode("utf-8"),
+                fg="yellow")
     # if next=="": return
     return
 
@@ -41,24 +41,27 @@ def exqt():
 def run(name):
     with open(cmd_json) as json_data:
         json_lst = json.load(json_data)
-        if json_lst == []:
-            print("command not found")
-            print("consider using `exqt add` to add new scripts")
+        if not json_lst:
+            click.secho("config file not found", fg='red')
             return
         keys_lst = json_lst["scripts"].keys()
         for i, el in enumerate(name):
             if el not in keys_lst:
-                print("command", el, "not found")
-                print("consider using `exqt add` to add new scripts")
+                click.secho("command "+el+" not found", fg='red')
+                click.secho("consider using `exqt add` to add new scripts", fg='red')
             else:
                 script = json_lst["scripts"][el]["script"]
                 run_script(script)
 
-            # print(json_lst)
-            # print(json_lst.keys())
+            # click.echo(json_lst)
+            # click.echo(json_lst.keys())
         json_data.close()
+    return
 
-    # print(cmd_lst)
-    # print(name)"""
+
+@exqt.command()
+#@click.argument('name', nargs=-1)
+def add():
 
     return
+
