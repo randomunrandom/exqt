@@ -31,7 +31,6 @@ def run_script(script):
 @click.group()
 # @click.option('--verbose', default=False)
 def exqt():
-    print("RUN")
     return
 
 
@@ -60,9 +59,10 @@ def run(name):
 def add():
     with open(get_cmd_file(), "r", encoding="UTF-8") as json_data:
         json_lst = json.load(json_data)
-        names = json_lst["scripts"].keys()
         if not json_lst:
             click.secho("config file empty", fg='red')
+
+        names = json_lst["scripts"].keys()
         name = str(input("name the script: "))
         while name in names:
             click.secho("this name is already taken, chose another one")
@@ -84,3 +84,21 @@ def add():
     with open(get_cmd_file(), "w", encoding="UTF-8") as json_data:
         json.dump(json_lst, json_data)
     return
+
+
+@exqt.command()
+def ls():
+    with open(get_cmd_file(), "r", encoding="UTF-8") as json_data:
+        json_lst = json.load(json_data)
+        if not json_lst:
+            click.secho("config file empty", fg='red')
+            return
+
+        names = json_lst['scripts'].keys()
+        click.secho(f"Found " + str(len(names)) + " scripts:")
+        for i, script_name in enumerate(names):
+            click.echo("\t " + str(i + 1) + ") ", nl=False)
+            click.secho(script_name, fg='green')
+            script_code = json_lst['scripts'][script_name]['script']
+            click.echo("\t   script: ", nl=False)
+            click.secho(script_code, fg="bright_blue")
