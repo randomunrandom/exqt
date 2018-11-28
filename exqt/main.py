@@ -6,17 +6,16 @@ import click
 
 
 def get_cmd_file():
+    """
+    creates basic config file and returns path to it
+    :return: str - path to config file
+    """
     user_home = os.path.expanduser("~")
     os.chdir(user_home)
     if not (os.path.exists(".exqt.json")):
         file = open(".exqt.json", "w+")
         file.close()
     return str(os.getcwd() + "/.exqt.json")
-
-
-cmd_json = get_cmd_file()
-if cmd_json == "":
-    click.echo("error:\nhome dir not found")
 
 
 def run_script(script):
@@ -32,14 +31,14 @@ def run_script(script):
 @click.group()
 # @click.option('--verbose', default=False)
 def exqt():
-    # I don't know what to put here
+    print("RUN")
     return
 
 
 @exqt.command()
 @click.argument('name', nargs=-1)
 def run(name):
-    with open(cmd_json) as json_data:
+    with open(get_cmd_file(), "r", encoding="UTF-8") as json_data:
         json_lst = json.load(json_data)
         if not json_lst:
             click.secho("config file not found", fg='red')
@@ -57,9 +56,9 @@ def run(name):
 
 
 @exqt.command()
-#@click.argument('-N', '--name')
+# @click.argument('-N', '--name')
 def add():
-    with open(cmd_json, "r", encoding="UTF-8") as json_data:
+    with open(get_cmd_file(), "r", encoding="UTF-8") as json_data:
         json_lst = json.load(json_data)
         names = json_lst["scripts"].keys()
         if not json_lst:
@@ -74,14 +73,14 @@ def add():
             click.echo("\t" + str(i + 1) + ">", nl=False)
             click.secho(el, fg="green")
         env = int(input())
-        while env not in range(1, len(json_lst["envs"])+1):
+        while env not in range(1, len(json_lst["envs"]) + 1):
             click.secho("in which environment to run?\nchoose one of the below: ", fg="yellow")
             for i, el in enumerate(json_lst["envs"]):
                 click.echo("\t" + str(i + 1) + ">", nl=False)
                 click.secho(el, fg="green")
             env = int(input())
-        env = json_lst["envs"][env-1]
+        env = json_lst["envs"][env - 1]
         json_lst["scripts"][name] = dict(script=script, env=env)
-    with open(cmd_json, "w", encoding="UTF-8") as json_data:
+    with open(get_cmd_file(), "w", encoding="UTF-8") as json_data:
         json.dump(json_lst, json_data)
     return
